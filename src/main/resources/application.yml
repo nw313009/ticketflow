@@ -1,3 +1,8 @@
+jwt:
+  secret: 4c61b54e2a5d4e3f8b7c2d1e9f0a3b6c8d5e7f2a1b4c6d8e0f3a5b7c9d1e4f6
+  access-token-expiration: 900000
+  refresh-token-expiration: 604800000
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ticketflow
@@ -16,7 +21,3 @@ spring:
 
 server:
   port: 8081
-
-logging:
-  level:
-    org.springframework.security: DEBUG

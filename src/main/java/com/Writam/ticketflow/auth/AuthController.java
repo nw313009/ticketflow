@@ -2,11 +2,14 @@ package com.Writam.ticketflow.auth;
 
 
 import com.Writam.ticketflow.auth.dto.AuthResponse;
+import com.Writam.ticketflow.auth.dto.LoginRequest;
 import com.Writam.ticketflow.auth.dto.RegisterRequest;
+import com.Writam.ticketflow.auth.dto.RefreshRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,4 +25,16 @@ public class AuthController {
         AuthResponse response = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+        AuthResponse response = authService.login(request);
+        return ResponseEntity.ok(response);//retunrs 200 ok because 201 is created just authenticating. 
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@Valid@RequestBody RefreshRequest request) {
+        AuthResponse response = authService.refresh(request);
+        return ResponseEntity.ok(response);
+    }
+
+
 }
