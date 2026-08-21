@@ -12,7 +12,7 @@ TicketFlow is a support ticket system backend: customers submit tickets, agents 
 
 This is a **backend-only** project. There is no frontend — that's a deliberate scope choice, not a gap. Every endpoint is verified via curl against a running PostgreSQL instance.
 
-**Why it exists:** To demonstrate that I can build a production-shaped backend by hand — understanding every annotation, every SQL migration, every framework decision — not just wire together tutorials.
+Why it exists: To demonstrate that I can build and explain a non-trivial Spring Boot backend from first principles, including authentication, authorization, workflow validation, SQL-backed assignment logic, migrations, and integration tests.
 
 ---
 
@@ -142,7 +142,7 @@ ORDER BY ticket_count ASC
 Comments have an `internal` boolean flag (defaults to `true` for safety — better to accidentally hide a comment from a customer than expose an internal note). The repository has two query methods: `findByTicketId` (agents/admins see everything) and `findByTicketIdAndInternalFalse` (customers see public only). The controller extracts the caller's role and routes to the correct query.
 
 ### Flyway Over Auto-DDL
-Schema is managed by versioned SQL migrations, not Hibernate's `ddl-auto`. Every table change is an explicit, reviewable SQL file. This is what production systems use.
+Schema is managed by versioned SQL migrations, not Hibernate's `ddl-auto`. Every table change is an explicit, reviewable SQL file.
 
 ### JWT with Refresh Tokens
 Access tokens expire in 15 minutes. Refresh tokens last 7 days. This balances security (short-lived access) with usability (users don't re-login constantly).
