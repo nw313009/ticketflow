@@ -38,7 +38,7 @@ This is a **backend-only** project. There is no frontend — that's a deliberate
 ```mermaid
 graph TD
     Client[Client / curl] -->|HTTP + JWT| Controller
-    Controller -->|@Valid, @PreAuthorize| Service
+    Controller -->|Validation + Auth| Service
     Service -->|JPA| Repository
     Repository -->|SQL| DB[(PostgreSQL 16)]
 
@@ -47,8 +47,8 @@ graph TD
         Login[POST /login] --> AuthService
         AuthService -->|BCrypt hash| UserRepo
         AuthService -->|HS384 sign| JwtService
-        JwtService -->|Access Token: 15min| Client
-        JwtService -->|Refresh Token: 7 days| Client
+        JwtService -->|Access Token 15min| Client
+        JwtService -->|Refresh Token 7 days| Client
     end
 
     subgraph Request Auth
@@ -131,11 +131,11 @@ When a ticket is created, the system automatically assigns it to the least-loade
 ```sql
 SELECT u.*, COUNT(t.id) AS ticket_count
 FROM users u
-LEFT JOIN tickets t ON t.assigned_to = u.id AND t.status != 'CLOSED'
+         LEFT JOIN tickets t ON t.assigned_to = u.id AND t.status != 'CLOSED'
 WHERE u.role = 'AGENT'
 GROUP BY u.id
 ORDER BY ticket_count ASC
-LIMIT 1;
+    LIMIT 1;
 ```
 
 ### Comment Visibility
